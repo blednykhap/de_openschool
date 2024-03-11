@@ -1,0 +1,659 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "(2) Вывести топ категорий по количеству просмотров товаров за всё время",
+      "text": "%pyspark\n\n# вывести в виде\n# +--------------------------------+----------+\n# |category_code                   |view_count|\n# +--------------------------------+----------+\n# |null                            |13236458  |\n# |electronics.smartphone          |10619448  |\n# |electronics.clocks              |1272783   |\n# |computers.notebook              |1106406   |\n\nfrom pyspark.sql.functions import col\nfrom pyspark.sql.functions import count\n\nmarket_events = spark.table(\"user_id.market_events\")\naggregeted_df = market_events \\\n    .groupBy(\"category_code\").agg(count(\"*\").alias(\"view_count\")) \\\n    .orderBy(col(\"view_count\").desc())\n\naggregeted_df.show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-09T00:29:36+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "category_code": "string",
+                      "view_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+----------+\n|       category_code|view_count|\n+--------------------+----------+\n|                null|  35413780|\n|electronics.smart...|  27882231|\n|  electronics.clocks|   3397999|\n|electronics.video.tv|   3321796|\n|  computers.notebook|   3318177|\n|electronics.audio...|   2917065|\n|       apparel.shoes|   2650791|\n|appliances.enviro...|   2329728|\n|appliances.kitche...|   2314917|\n|appliances.kitche...|   2273270|\n|   computers.desktop|   1114744|\n|auto.accessories....|    943306|\n|  apparel.shoes.keds|    896106|\n|furniture.bedroom...|    891126|\n|furniture.living_...|    853052|\n|  electronics.tablet|    809232|\n|construction.tool...|    677808|\n|furniture.living_...|    642066|\n|electronics.audio...|    632802|\n|electronics.telep...|    594428|\n+--------------------+----------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ca-spark-d-03.innoca.local:37261/jobs/job?id=17",
+              "$$hashKey": "object:20408"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707249684484_1270932443",
+      "id": "paragraph_1707138916785_1884113097",
+      "dateCreated": "2024-02-06T23:01:24+0300",
+      "dateStarted": "2024-02-09T00:29:36+0300",
+      "dateFinished": "2024-02-09T00:29:53+0300",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:20190"
+    },
+    {
+      "title": "(2) Построить гистограмму распределения цен на проданные товары за 10 октября",
+      "text": "%pyspark\n\n# результат визуализировать через z.show()\n\nfrom pyspark.sql.functions import col, round, countDistinct\n\nmarket_events = spark.table(\"user_id.market_events\")\n\ndaily_10 = market_events \\\n    .where(col(\"event_date\") == \"2019-10-10\") \\\n    .withColumn(\"bin\", round(\"price\", -1)) \\\n    .groupBy(\"bin\").agg(countDistinct(\"product_id\").alias(\"cnt\")) \\\n    .orderBy(col(\"bin\"))\n\nz.show(daily_10)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-09T22:26:06+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "multiBarChart",
+              "height": 300,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "bin": "string",
+                      "cnt": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "stacked": true
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "bin",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "cnt",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "bin": "string",
+                      "product_id": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "bin\tcnt\n0.0\t2625\n10.0\t6603\n20.0\t5274\n30.0\t4628\n40.0\t4426\n50.0\t4272\n60.0\t3860\n70.0\t3337\n80.0\t2993\n90.0\t2470\n100.0\t2648\n110.0\t1865\n120.0\t1918\n130.0\t1663\n140.0\t1423\n150.0\t1375\n160.0\t1011\n170.0\t1055\n180.0\t1070\n190.0\t858\n200.0\t727\n210.0\t753\n220.0\t759\n230.0\t799\n240.0\t644\n250.0\t538\n260.0\t659\n270.0\t510\n280.0\t548\n290.0\t420\n300.0\t466\n310.0\t529\n320.0\t446\n330.0\t450\n340.0\t292\n350.0\t385\n360.0\t408\n370.0\t320\n380.0\t258\n390.0\t338\n400.0\t260\n410.0\t346\n420.0\t221\n430.0\t205\n440.0\t260\n450.0\t183\n460.0\t311\n470.0\t166\n480.0\t207\n490.0\t222\n500.0\t148\n510.0\t256\n520.0\t93\n530.0\t99\n540.0\t160\n550.0\t113\n560.0\t121\n570.0\t177\n580.0\t101\n590.0\t145\n600.0\t117\n610.0\t85\n620.0\t161\n630.0\t100\n640.0\t161\n650.0\t72\n660.0\t69\n670.0\t131\n680.0\t86\n690.0\t114\n700.0\t62\n710.0\t64\n720.0\t116\n730.0\t72\n740.0\t63\n750.0\t90\n760.0\t70\n770.0\t140\n780.0\t51\n790.0\t58\n800.0\t76\n810.0\t62\n820.0\t106\n830.0\t50\n840.0\t43\n850.0\t81\n860.0\t47\n870.0\t57\n880.0\t75\n890.0\t49\n900.0\t105\n910.0\t44\n920.0\t48\n930.0\t67\n940.0\t57\n950.0\t71\n960.0\t41\n970.0\t53\n980.0\t55\n990.0\t58\n1000.0\t63\n1010.0\t34\n1020.0\t38\n1030.0\t114\n1040.0\t22\n1050.0\t26\n1060.0\t48\n1070.0\t27\n1080.0\t36\n1090.0\t39\n1100.0\t22\n1110.0\t46\n1120.0\t28\n1130.0\t40\n1140.0\t24\n1150.0\t31\n1160.0\t56\n1170.0\t23\n1180.0\t33\n1190.0\t21\n1200.0\t34\n1210.0\t43\n1220.0\t23\n1230.0\t23\n1240.0\t40\n1250.0\t28\n1260.0\t36\n1270.0\t25\n1280.0\t33\n1290.0\t55\n1300.0\t26\n1310.0\t13\n1320.0\t17\n1330.0\t30\n1340.0\t26\n1350.0\t22\n1360.0\t25\n1370.0\t14\n1380.0\t25\n1390.0\t23\n1400.0\t12\n1410.0\t26\n1420.0\t42\n1430.0\t23\n1440.0\t27\n1450.0\t18\n1460.0\t15\n1470.0\t21\n1480.0\t20\n1490.0\t35\n1500.0\t16\n1510.0\t13\n1520.0\t35\n1530.0\t14\n1540.0\t56\n1550.0\t8\n1560.0\t5\n1570.0\t11\n1580.0\t15\n1590.0\t11\n1600.0\t20\n1610.0\t14\n1620.0\t17\n1630.0\t17\n1640.0\t10\n1650.0\t20\n1660.0\t8\n1670.0\t28\n1680.0\t6\n1690.0\t16\n1700.0\t20\n1710.0\t8\n1720.0\t9\n1730.0\t2\n1740.0\t15\n1750.0\t24\n1760.0\t13\n1770.0\t5\n1780.0\t9\n1790.0\t9\n1800.0\t27\n1810.0\t11\n1820.0\t5\n1830.0\t2\n1840.0\t8\n1850.0\t17\n1860.0\t8\n1870.0\t1\n1880.0\t10\n1890.0\t12\n1900.0\t13\n1910.0\t2\n1920.0\t3\n1930.0\t16\n1940.0\t9\n1950.0\t2\n1960.0\t8\n1970.0\t5\n1980.0\t8\n1990.0\t3\n2000.0\t3\n2010.0\t16\n2020.0\t10\n2030.0\t10\n2040.0\t3\n2050.0\t3\n2060.0\t19\n2070.0\t9\n2080.0\t10\n2090.0\t7\n2100.0\t6\n2110.0\t6\n2120.0\t6\n2130.0\t5\n2140.0\t8\n2150.0\t1\n2160.0\t14\n2170.0\t6\n2180.0\t7\n2190.0\t13\n2200.0\t8\n2210.0\t6\n2220.0\t3\n2230.0\t2\n2240.0\t5\n2250.0\t4\n2260.0\t3\n2270.0\t4\n2280.0\t4\n2290.0\t5\n2300.0\t3\n2310.0\t3\n2320.0\t13\n2330.0\t9\n2340.0\t4\n2360.0\t1\n2370.0\t13\n2380.0\t6\n2390.0\t5\n2400.0\t9\n2410.0\t2\n2420.0\t4\n2430.0\t3\n2440.0\t4\n2450.0\t10\n2460.0\t6\n2470.0\t9\n2480.0\t6\n2500.0\t9\n2510.0\t8\n2520.0\t16\n2530.0\t3\n2540.0\t1\n2550.0\t6\n2560.0\t6\n2570.0\t32\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ca-spark-d-02.innoca.local:45027/jobs/job?id=2",
+              "$$hashKey": "object:20506"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707249684484_428352425",
+      "id": "paragraph_1707138958916_480950254",
+      "dateCreated": "2024-02-06T23:01:24+0300",
+      "dateStarted": "2024-02-09T22:26:06+0300",
+      "dateFinished": "2024-02-09T22:26:09+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:20191"
+    },
+    {
+      "title": "(2) Посчитать количество продаж за октябрь отдельно бренда apple и остальных",
+      "text": "%pyspark\n\n# вывести через df.show() в виде\n# +--------+------+\n# |is_apple| count|\n# +--------+------+\n# |    true| *****|\n# |   false| *****|\n# +--------+------+\n\nfrom pyspark.sql.functions import col, expr, when, count\n\napple_events = spark.table(\"user_id.market_events\") \\\n    .where(expr(\"event_time between '2019-10-01' and '2019-11-01'\")) \\\n    .withColumn(\"is_apple\", when(col(\"brand\") == \"apple\", \"true\").otherwise(\"false\")) \\\n    .withColumn(\"col_order\", when(col(\"brand\") == \"apple\", 1).otherwise(2)) \\\n    .groupBy(\"col_order\", \"is_apple\").agg(count(\"*\").alias(\"count\")) \\\n    .orderBy(\"col_order\") \\\n    .select(\"is_apple\", \"count\")\n\napple_events.show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-08T20:52:11+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------+--------+\n|is_apple|   count|\n+--------+--------+\n|    true| 4122554|\n|   false|38326210|\n+--------+--------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ca-spark-d-04.innoca.local:46792/jobs/job?id=22",
+              "$$hashKey": "object:20564"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707249684484_1035878561",
+      "id": "paragraph_1707139057052_1303209486",
+      "dateCreated": "2024-02-06T23:01:24+0300",
+      "dateStarted": "2024-02-08T17:25:16+0300",
+      "dateFinished": "2024-02-08T17:26:49+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:20192"
+    },
+    {
+      "title": "(2) Построить почасовой график продаж и прибыли за вторую неделю октября",
+      "text": "%pyspark\n\n# z.show(), ключ -- часы, значения -- число продаж и сумма прибыли за этот час\n\nfrom pyspark.sql.functions import date_format, count, sum, expr, round, date_trunc, lit, col\n\n# hourly_count_graph - исключительно для наглядности при построении графика\n\nhourly_sales = spark.table(\"user_id.market_events\") \\\n    .where(expr(\"event_time between '2019-10-07' and '2019-10-14'\")) \\\n    .withColumn(\"hour_id\", date_trunc(\"hour\", \"event_time\")) \\\n    .groupBy(\"hour_id\").agg(count(\"*\").alias(\"hourly_count\"), sum(\"price\").alias(\"hourly_sum\")) \\\n    .select(\"hour_id\", \"hourly_count\", \"hourly_sum\") \\\n    .withColumn(\"hourly_count_graph\", col(\"hourly_count\") * lit(100)) \\\n    .orderBy(\"hour_id\")\n\nz.show(hourly_sales)",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-09T22:24:21+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "lineChart",
+              "height": 1992.75,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "hour_id": "string",
+                      "hourly_count": "string",
+                      "hourly_sum": "string",
+                      "hourly_count_graph": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-90"
+                  },
+                  "xLabelStatus": "rotate",
+                  "stacked": false
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "style": "stack"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "isDateFormat": true,
+                  "dateFormat": "DD - HH",
+                  "lineWithFocus": false,
+                  "forceY": false
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "hour_id",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "hourly_sum",
+                  "index": 2,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "hourly_count",
+                  "index": 1,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "hourly_count_graph",
+                  "index": 3,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "hour_id": "string",
+                      "hourly_count": "string",
+                      "hourly_sum": "string",
+                      "hourly_count_graph": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "hour_id\thourly_count\thourly_sum\thourly_count_graph\n2019-10-07 00:00:00.0\t9277\t3070411.840000015\t927700\n2019-10-07 01:00:00.0\t18562\t6061570.8599999035\t1856200\n2019-10-07 02:00:00.0\t31501\t9783260.369999973\t3150100\n2019-10-07 03:00:00.0\t45164\t1.342237046000037E7\t4516400\n2019-10-07 04:00:00.0\t54893\t1.6554509710000124E7\t5489300\n2019-10-07 05:00:00.0\t59700\t1.7516211460000254E7\t5970000\n2019-10-07 06:00:00.0\t61629\t1.800337274000056E7\t6162900\n2019-10-07 07:00:00.0\t64823\t1.8976737260000344E7\t6482300\n2019-10-07 08:00:00.0\t66926\t1.943769040000062E7\t6692600\n2019-10-07 09:00:00.0\t65762\t1.9059361310000654E7\t6576200\n2019-10-07 10:00:00.0\t63972\t1.837140823000057E7\t6397200\n2019-10-07 11:00:00.0\t60187\t1.7184156130000617E7\t6018700\n2019-10-07 12:00:00.0\t56628\t1.692927256000086E7\t5662800\n2019-10-07 13:00:00.0\t64131\t1.876847186000078E7\t6413100\n2019-10-07 14:00:00.0\t76433\t2.2205112980000045E7\t7643300\n2019-10-07 15:00:00.0\t90321\t2.614210299999953E7\t9032100\n2019-10-07 16:00:00.0\t90807\t2.6291931179999176E7\t9080700\n2019-10-07 17:00:00.0\t79395\t2.336824319999981E7\t7939500\n2019-10-07 18:00:00.0\t59822\t1.800885543000055E7\t5982200\n2019-10-07 19:00:00.0\t37746\t1.221635923000018E7\t3774600\n2019-10-07 20:00:00.0\t19608\t6575994.999999959\t1960800\n2019-10-07 21:00:00.0\t10122\t3329222.620000015\t1012200\n2019-10-07 22:00:00.0\t6836\t2165767.889999995\t683600\n2019-10-07 23:00:00.0\t6286\t2006642.78\t628600\n2019-10-08 00:00:00.0\t9063\t2624732.94\t906300\n2019-10-08 01:00:00.0\t20054\t5903885.739999962\t2005400\n2019-10-08 02:00:00.0\t33845\t1.0010752119999915E7\t3384500\n2019-10-08 03:00:00.0\t46054\t1.3615721310000157E7\t4605400\n2019-10-08 04:00:00.0\t56853\t1.6343268240000414E7\t5685300\n2019-10-08 05:00:00.0\t68874\t1.93796744000002E7\t6887400\n2019-10-08 06:00:00.0\t76175\t2.0567495850001045E7\t7617500\n2019-10-08 07:00:00.0\t79633\t2.142293833000081E7\t7963300\n2019-10-08 08:00:00.0\t78917\t2.0767546040000875E7\t7891700\n2019-10-08 09:00:00.0\t78766\t2.1446113990001168E7\t7876600\n2019-10-08 10:00:00.0\t73940\t1.979771749000111E7\t7394000\n2019-10-08 11:00:00.0\t71947\t1.936456828000096E7\t7194700\n2019-10-08 12:00:00.0\t70426\t1.868952506000093E7\t7042600\n2019-10-08 13:00:00.0\t79332\t2.1213194360001206E7\t7933200\n2019-10-08 14:00:00.0\t88644\t2.3917826350000795E7\t8864400\n2019-10-08 15:00:00.0\t96501\t2.6394493500000823E7\t9650100\n2019-10-08 16:00:00.0\t101007\t2.820413730000138E7\t10100700\n2019-10-08 17:00:00.0\t88401\t2.5074245940000754E7\t8840100\n2019-10-08 18:00:00.0\t65381\t1.8921277660000615E7\t6538100\n2019-10-08 19:00:00.0\t39421\t1.22002110400004E7\t3942100\n2019-10-08 20:00:00.0\t20995\t6327879.270000029\t2099500\n2019-10-08 21:00:00.0\t12021\t4097736.3599999794\t1202100\n2019-10-08 22:00:00.0\t8131\t2534254.9199999827\t813100\n2019-10-08 23:00:00.0\t6252\t2052512.6999999909\t625200\n2019-10-09 00:00:00.0\t10387\t3308581.840000003\t1038700\n2019-10-09 01:00:00.0\t20679\t5911288.53999998\t2067900\n2019-10-09 02:00:00.0\t35600\t9739863.290000139\t3560000\n2019-10-09 03:00:00.0\t49522\t1.3925972840000555E7\t4952200\n2019-10-09 04:00:00.0\t61649\t1.7367850000000644E7\t6164900\n2019-10-09 05:00:00.0\t71030\t1.936309880000105E7\t7103000\n2019-10-09 06:00:00.0\t73472\t2.0434246620001163E7\t7347200\n2019-10-09 07:00:00.0\t76185\t2.1226173220001336E7\t7618500\n2019-10-09 08:00:00.0\t77976\t2.1611411900000762E7\t7797600\n2019-10-09 09:00:00.0\t76989\t2.1459722720001288E7\t7698900\n2019-10-09 10:00:00.0\t74274\t2.051950239000101E7\t7427400\n2019-10-09 11:00:00.0\t69825\t1.9435544730000466E7\t6982500\n2019-10-09 12:00:00.0\t66916\t1.889692798000009E7\t6691600\n2019-10-09 13:00:00.0\t72400\t1.9976547880000316E7\t7240000\n2019-10-09 14:00:00.0\t82296\t2.2856337020000055E7\t8229600\n2019-10-09 15:00:00.0\t96431\t2.7145983130000696E7\t9643100\n2019-10-09 16:00:00.0\t95042\t2.6582045480000738E7\t9504200\n2019-10-09 17:00:00.0\t85195\t2.431340196000056E7\t8519500\n2019-10-09 18:00:00.0\t63242\t1.7937079120000117E7\t6324200\n2019-10-09 19:00:00.0\t38992\t1.2209133610000191E7\t3899200\n2019-10-09 20:00:00.0\t21670\t6916449.340000142\t2167000\n2019-10-09 21:00:00.0\t12530\t3789978.450000018\t1253000\n2019-10-09 22:00:00.0\t8340\t2763992.260000011\t834000\n2019-10-09 23:00:00.0\t6901\t2084220.9000000004\t690100\n2019-10-10 00:00:00.0\t10639\t2992022.1499999994\t1063900\n2019-10-10 01:00:00.0\t16159\t4862329.910000053\t1615900\n2019-10-10 02:00:00.0\t35808\t9939232.760000082\t3580800\n2019-10-10 03:00:00.0\t50353\t1.3992832040000916E7\t5035300\n2019-10-10 04:00:00.0\t61166\t1.7199111550001025E7\t6116600\n2019-10-10 05:00:00.0\t64170\t1.837201986000098E7\t6417000\n2019-10-10 06:00:00.0\t66183\t1.8963795790001288E7\t6618300\n2019-10-10 07:00:00.0\t67395\t1.952673894000085E7\t6739500\n2019-10-10 08:00:00.0\t69112\t1.981510154000167E7\t6911200\n2019-10-10 09:00:00.0\t66801\t1.8877366600001384E7\t6680100\n2019-10-10 10:00:00.0\t62973\t1.8127124390001062E7\t6297300\n2019-10-10 11:00:00.0\t61800\t1.7880260650000717E7\t6180000\n2019-10-10 12:00:00.0\t57946\t1.6972506980000496E7\t5794600\n2019-10-10 13:00:00.0\t68626\t2.0072387600001328E7\t6862600\n2019-10-10 14:00:00.0\t81229\t2.4007406700001564E7\t8122900\n2019-10-10 15:00:00.0\t93426\t2.6831035150001515E7\t9342600\n2019-10-10 16:00:00.0\t96383\t2.7898369330000926E7\t9638300\n2019-10-10 17:00:00.0\t86356\t2.5143373280001808E7\t8635600\n2019-10-10 18:00:00.0\t67963\t1.9899460650001455E7\t6796300\n2019-10-10 19:00:00.0\t43438\t1.2925051230000801E7\t4343800\n2019-10-10 20:00:00.0\t24784\t7734666.330000037\t2478400\n2019-10-10 21:00:00.0\t14213\t4668931.430000031\t1421300\n2019-10-10 22:00:00.0\t9427\t3003263.850000008\t942700\n2019-10-10 23:00:00.0\t7727\t2350530.590000012\t772700\n2019-10-11 00:00:00.0\t11965\t3327204.6500000074\t1196500\n2019-10-11 01:00:00.0\t23866\t6976440.520000075\t2386600\n2019-10-11 02:00:00.0\t37494\t1.0269698120000392E7\t3749400\n2019-10-11 03:00:00.0\t55542\t1.5349212190001028E7\t5554200\n2019-10-11 04:00:00.0\t67181\t1.880567744000129E7\t6718100\n2019-10-11 05:00:00.0\t78637\t2.2165078080001175E7\t7863700\n2019-10-11 06:00:00.0\t83501\t2.2930788120001175E7\t8350100\n2019-10-11 07:00:00.0\t80918\t2.2994749000000544E7\t8091800\n2019-10-11 08:00:00.0\t84183\t2.391702545000047E7\t8418300\n2019-10-11 09:00:00.0\t85433\t2.3765764440000564E7\t8543300\n2019-10-11 10:00:00.0\t79795\t2.186934350000036E7\t7979500\n2019-10-11 11:00:00.0\t77983\t2.1727311790000863E7\t7798300\n2019-10-11 12:00:00.0\t74472\t2.113171546000066E7\t7447200\n2019-10-11 13:00:00.0\t86093\t2.419048280000034E7\t8609300\n2019-10-11 14:00:00.0\t99806\t2.8271581929999657E7\t9980600\n2019-10-11 15:00:00.0\t104652\t2.8794504300001547E7\t10465200\n2019-10-11 16:00:00.0\t103219\t2.8905852940001838E7\t10321900\n2019-10-11 17:00:00.0\t90579\t2.5963014650000636E7\t9057900\n2019-10-11 18:00:00.0\t69347\t2.015374477000099E7\t6934700\n2019-10-11 19:00:00.0\t43612\t1.2688315200000258E7\t4361200\n2019-10-11 20:00:00.0\t25040\t7506957.119999965\t2504000\n2019-10-11 21:00:00.0\t15670\t4831483.500000013\t1567000\n2019-10-11 22:00:00.0\t9446\t3061765.5199999968\t944600\n2019-10-11 23:00:00.0\t6909\t2184080.9799999995\t690900\n2019-10-12 00:00:00.0\t10338\t2944007.0399999944\t1033800\n2019-10-12 01:00:00.0\t22980\t6254185.789999956\t2298000\n2019-10-12 02:00:00.0\t39489\t1.051668618000006E7\t3948900\n2019-10-12 03:00:00.0\t55775\t1.5381778420000464E7\t5577500\n2019-10-12 04:00:00.0\t71308\t1.975243776000089E7\t7130800\n2019-10-12 05:00:00.0\t82937\t2.251209928000104E7\t8293700\n2019-10-12 06:00:00.0\t84369\t2.3792992380001184E7\t8436900\n2019-10-12 07:00:00.0\t85818\t2.411576407000146E7\t8581800\n2019-10-12 08:00:00.0\t84794\t2.3910676420001835E7\t8479400\n2019-10-12 09:00:00.0\t79553\t2.3120392790001716E7\t7955300\n2019-10-12 10:00:00.0\t78820\t2.234927428000095E7\t7882000\n2019-10-12 11:00:00.0\t77047\t2.1730306150000993E7\t7704700\n2019-10-12 12:00:00.0\t74054\t2.1357293160000782E7\t7405400\n2019-10-12 13:00:00.0\t75669\t2.142546594000082E7\t7566900\n2019-10-12 14:00:00.0\t85006\t2.4321578050000686E7\t8500600\n2019-10-12 15:00:00.0\t96694\t2.717136755000102E7\t9669400\n2019-10-12 16:00:00.0\t101139\t2.7474278900000572E7\t10113900\n2019-10-12 17:00:00.0\t93786\t2.615973394000084E7\t9378600\n2019-10-12 18:00:00.0\t68609\t1.9940599920000054E7\t6860900\n2019-10-12 19:00:00.0\t46717\t1.364691573999961E7\t4671700\n2019-10-12 20:00:00.0\t29035\t8606164.50999992\t2903500\n2019-10-12 21:00:00.0\t17800\t5290161.849999941\t1780000\n2019-10-12 22:00:00.0\t10559\t3252247.9999999865\t1055900\n2019-10-12 23:00:00.0\t7600\t2177747.040000012\t760000\n2019-10-13 00:00:00.0\t8748\t2245337.14999999\t874800\n2019-10-13 01:00:00.0\t18396\t4527662.070000023\t1839600\n2019-10-13 02:00:00.0\t36766\t9277845.239999982\t3676600\n2019-10-13 03:00:00.0\t55151\t1.4508564510000097E7\t5515100\n2019-10-13 04:00:00.0\t71403\t1.9623455530000538E7\t7140300\n2019-10-13 05:00:00.0\t77583\t2.151746407000092E7\t7758300\n2019-10-13 06:00:00.0\t82164\t2.3204766730000112E7\t8216400\n2019-10-13 07:00:00.0\t97515\t2.6686628100000937E7\t9751500\n2019-10-13 08:00:00.0\t108000\t2.973331334000025E7\t10800000\n2019-10-13 09:00:00.0\t112539\t3.1014787730000976E7\t11253900\n2019-10-13 10:00:00.0\t113215\t3.0939106870001487E7\t11321500\n2019-10-13 11:00:00.0\t97079\t2.6365173970001206E7\t9707900\n2019-10-13 12:00:00.0\t85102\t2.3375634940000538E7\t8510200\n2019-10-13 13:00:00.0\t88149\t2.4574826930000495E7\t8814900\n2019-10-13 14:00:00.0\t94476\t2.6185656550000787E7\t9447600\n2019-10-13 15:00:00.0\t104344\t2.934618326000075E7\t10434400\n2019-10-13 16:00:00.0\t108415\t3.0236638560000688E7\t10841500\n2019-10-13 17:00:00.0\t99370\t2.8080235870000575E7\t9937000\n2019-10-13 18:00:00.0\t74917\t2.3024032250000414E7\t7491700\n2019-10-13 19:00:00.0\t47029\t1.4505419089999616E7\t4702900\n2019-10-13 20:00:00.0\t26755\t8944857.899999812\t2675500\n2019-10-13 21:00:00.0\t15725\t5306454.6799999215\t1572500\n2019-10-13 22:00:00.0\t8824\t2673561.530000003\t882400\n2019-10-13 23:00:00.0\t7406\t2320296.8500000113\t740600\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ca-spark-d-04.innoca.local:36870/jobs/job?id=7",
+              "$$hashKey": "object:20662"
+            },
+            {
+              "jobUrl": "http://ca-spark-d-04.innoca.local:36870/jobs/job?id=8",
+              "$$hashKey": "object:20663"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707249684484_631251843",
+      "id": "paragraph_1707139180316_45303302",
+      "dateCreated": "2024-02-06T23:01:24+0300",
+      "dateStarted": "2024-02-09T12:58:39+0300",
+      "dateFinished": "2024-02-09T13:02:18+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:20193"
+    },
+    {
+      "title": "(2) Построить почасовой график числа продаж и выручки, усредненный за месяц",
+      "text": "%pyspark\n\n# z.show(), ключ -- час в диапазоне от 0 до 23, значение -- усредненное за месяц число продаж в этот час на месячных данных\n\nfrom pyspark.sql.functions import expr, hour, count, date_trunc, avg, sum, col, lit\n\n# avg_count_daily_graph - исключительно для наглядности при построении графика\n\nhourly_sales = spark.table(\"user_id.market_events\") \\\n    .where(expr(\"event_time between '2019-10-01' and '2019-11-01'\")) \\\n    .withColumn(\"hour_monthly\", date_trunc(\"hour\", \"event_time\")) \\\n    .groupBy(\"hour_monthly\").agg(count(\"*\").alias(\"count_monthly\"), sum(\"price\").alias(\"sum_monthly\")) \\\n    .withColumn(\"hour_daily\", hour(\"hour_monthly\")) \\\n    .groupBy(\"hour_daily\").agg(avg(\"count_monthly\").alias(\"avg_count_daily\"), avg(\"sum_monthly\").alias(\"avg_sum_t_daily\")) \\\n    .withColumn(\"avg_count_daily_graph\", col(\"avg_count_daily\") * lit(100)) \\\n    .orderBy(\"hour_daily\")\n\nz.show(hourly_sales)",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-09T22:24:33+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "multiBarChart",
+              "height": 300,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "hour_daily": "string",
+                      "count_daily": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "hour_daily",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "avg_count_daily",
+                  "index": 1,
+                  "aggr": "avg"
+                },
+                {
+                  "name": "avg_sum_t_daily",
+                  "index": 2,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "avg_count_daily_graph",
+                  "index": 3,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "hour_monthly": "string",
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "hour_daily\tavg_count_daily\tavg_sum_t_daily\tavg_count_daily_graph\n0\t9896.935483870968\t2844825.3974193553\t989693.5483870967\n1\t18033.129032258064\t5073548.532258057\t1803312.9032258065\n2\t34485.3870967742\t9567482.553548422\t3448538.7096774196\n3\t50009.1935483871\t1.4051300747742118E7\t5000919.35483871\n4\t61794.93548387097\t1.751590721967767E7\t6179493.548387097\n5\t68568.80645161291\t1.9544868460000277E7\t6856880.645161291\n6\t73196.51612903226\t2.090942005967782E7\t7319651.612903226\n7\t75345.74193548386\t2.1665938888065E7\t7534574.193548386\n8\t77100.87096774194\t2.2148846518387552E7\t7710087.096774194\n9\t75860.74193548386\t2.1918232810645718E7\t7586074.193548386\n10\t74102.48387096774\t2.139010855387145E7\t7410248.387096774\n11\t70770.80645161291\t2.0599420170322966E7\t7077080.645161291\n12\t68963.48387096774\t2.024052985483904E7\t6896348.387096774\n13\t75967.48387096774\t2.2247156597097207E7\t7596748.387096774\n14\t86404.83870967742\t2.5190384438064825E7\t8640483.870967742\n15\t96157.74193548386\t2.78088662561293E7\t9615774.193548387\n16\t98540.09677419355\t2.849282837193579E7\t9854009.677419355\n17\t88184.45161290323\t2.5649312649677735E7\t8818445.161290323\n18\t68547.19354838709\t2.034863455903254E7\t6854719.354838709\n19\t43263.54838709677\t1.3200646217419477E7\t4326354.838709678\n20\t24007.225806451614\t7536031.868387098\t2400722.580645161\n21\t14142.645161290322\t4587365.657096763\t1414264.5161290322\n22\t8808.225806451614\t2807620.7180645145\t880822.5806451613\n23\t7162.4838709677415\t2205256.9661290343\t716248.3870967742\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ca-spark-d-03.innoca.local:45145/jobs/job?id=2",
+              "$$hashKey": "object:20765"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707249684484_346273315",
+      "id": "paragraph_1707139107149_273049952",
+      "dateCreated": "2024-02-06T23:01:24+0300",
+      "dateStarted": "2024-02-09T15:53:10+0300",
+      "dateFinished": "2024-02-09T15:57:04+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:20194"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-08T23:28:01+0300",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707424081400_171070393",
+      "id": "paragraph_1707424081400_171070393",
+      "dateCreated": "2024-02-08T23:28:01+0300",
+      "status": "READY",
+      "$$hashKey": "object:20195"
+    }
+  ],
+  "name": "homework_3",
+  "id": "2JR4A4ZXK",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "personalizedMode": "false",
+    "looknfeel": "default",
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {},
+  "path": "/user_id/homework_3"
+}

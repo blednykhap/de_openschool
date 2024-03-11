@@ -1,0 +1,457 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n\n### Задание после лекции 2.\n\nСохранить один месяц данных из папки /datasets/marketplace в личную базу username.market_events, данные партиционировать по дате\n\nПосчитать посуточные аггрегаты для этих данных по категориям в таблицу event_types_daily с колонками: event_date, category_id, event_type, event_count, distinct_customer_count. Счёт нужно производить отдельно по дням (в цикле по датам), целевую таблицу тоже разделить на партиции.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:11:12+0300",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h3>Задание после лекции 2.</h3>\n<p>Сохранить один месяц данных из папки /datasets/marketplace в личную базу username.market_events, данные партиционировать по дате</p>\n<p>Посчитать посуточные аггрегаты для этих данных по категориям в таблицу event_types_daily с колонками: event_date, category_id, event_type, event_count, distinct_customer_count. Счёт нужно производить отдельно по дням (в цикле по датам), целевую таблицу тоже разделить на партиции.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706941505791_1464212496",
+      "id": "paragraph_1706935007842_1539899653",
+      "dateCreated": "2024-02-03T09:25:05+0300",
+      "dateStarted": "2024-02-04T12:11:12+0300",
+      "dateFinished": "2024-02-04T12:11:12+0300",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:18739"
+    },
+    {
+      "text": "%md\n\n#### Инициализация",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:11:29+0300",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h4>Инициализация</h4>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707037876426_1805172021",
+      "id": "paragraph_1707037876426_1805172021",
+      "dateCreated": "2024-02-04T12:11:16+0300",
+      "dateStarted": "2024-02-04T12:11:29+0300",
+      "dateFinished": "2024-02-04T12:11:29+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:18740"
+    },
+    {
+      "text": "%spark.pyspark\n\n# Создаем базу данных\nspark.sql(\"create database if not exists user_id\\")\ndf = spark.sql(\"show databases\")\ndf.show()\n\n#spark.sql(\"CREATE TABLE user_id.event_types_daily (category_id int, event_type string, event_count int, distinct_customer_count int, event_date timestamp) USING parquet PARTITIONED BY (event_date)\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:11:44+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706941505791_805595409",
+      "id": "paragraph_1706935736820_168648757",
+      "dateCreated": "2024-02-03T09:25:05+0300",
+      "dateStarted": "2024-02-04T12:08:26+0300",
+      "dateFinished": "2024-02-04T12:08:26+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:18741"
+    },
+    {
+      "text": "%md\n\n#### Вариант 1. Решение агрегацией ",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:11:04+0300",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h4>Вариант 1. Решение агрегацией</h4>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707035096671_333986911",
+      "id": "paragraph_1707035096671_333986911",
+      "dateCreated": "2024-02-04T11:24:56+0300",
+      "dateStarted": "2024-02-04T12:11:04+0300",
+      "dateFinished": "2024-02-04T12:11:04+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:18742"
+    },
+    {
+      "text": "%spark.pyspark\n\nfrom pyspark.sql.functions import col, to_timestamp, to_date\nfrom pyspark.sql.functions import count\nfrom pyspark.sql.functions import countDistinct\n\nspark.conf.set(\"spark.sql.sources.partitionOverwriteMode\", \"dynamic\")\n\nprint(\"Start loading\")\n\n# Чтение данных из файла (hadcode)\nmarked_df = spark.read.csv(\"/datasets/marketplace/2019-Nov.csv.gz\", header=True, inferSchema=True)\n\n# Трансформация поля партиционирования\ntransformed_df = marked_df \\\n    .withColumn(\"event_time\", to_timestamp(col(\"event_time\"), \"yyyy-MM-dd HH:mm:ss\")) \\\n    .withColumn(\"event_date\", to_date(col(\"event_time\")))\n\n# Формирование таблицы источника\ntransformed_df \\\n    .write \\\n    .partitionBy(\"event_date\") \\\n    .mode(\"overwrite\") \\\n    .saveAsTable(\"user_id.market_events\")\n    \n# Получение целевых данных плюс агрегация\nmarked_df = spark.table(\"user_id.market_events\")\naggregated_df = marked_df \\\n    .groupBy(\"event_date\", \"category_id\", \"event_type\") \\\n    .agg(count(\"*\").alias(\"event_count\"), countDistinct(\"user_id\").alias(\"distinct_customer_count\"))    \n    \n# Запись целевых данных    \naggregated_df \\\n    .repartition(\"event_date\") \\ \n    .write \\\n    .partitionBy(\"event_date\") \\\n    .mode(\"overwrite\") \\\n    .saveAsTable(\"user_id.event_types_daily\")    \n    \nprint(\"Loading complite\")    ",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:15:06+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706941505791_1147429555",
+      "id": "paragraph_1706935266533_1670173702",
+      "dateCreated": "2024-02-03T09:25:05+0300",
+      "status": "READY",
+      "$$hashKey": "object:18743"
+    },
+    {
+      "text": "%md\n\n#### Вариант 2. Итерация по дням\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:10:59+0300",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h4>Вариант 2. Итерация по дням</h4>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707035851416_1786635759",
+      "id": "paragraph_1707035851416_1786635759",
+      "dateCreated": "2024-02-04T11:37:31+0300",
+      "dateStarted": "2024-02-04T12:10:59+0300",
+      "dateFinished": "2024-02-04T12:10:59+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:18744"
+    },
+    {
+      "text": "%spark.pyspark\n\nfrom pyspark.sql.functions import col, date_format, count, countDistinct\n\nprint(\"Start loading\")\n\n# Получение даты событий из источника\nmarket_events_df = spark.table(\"user_id.market_events\")\nmarket_events_dates = market_events_df \\\n    .select(\"event_date\") \\\n    .distinct()\n\n# Получение даты событий из целевой таблицы\nevent_types_daily_df = spark.table(\"user_id.event_types_daily\")\nevent_types_daily_dates = event_types_daily_df \\\n    .select(\"event_date\") \\\n    .distinct() \n    \n# Формирование список дат для загрузки    \netl_dates = market_events_dates \\\n    .subtract(event_types_daily_dates) \\\n    .orderBy(\"event_date\") \\\n    .withColumn(\"event_date\", date_format(\"event_date\", \"yyyy-MM-dd\")) \\\n    .rdd.map(lambda x: x[0]).collect()\n\n# Итерация по дням загрузки\nfor current_date in etl_dates:\n    \n    # Получение агрегатов за 1 день\n    marked_df = spark.table(\"user_id.market_events\")\n    aggregated_df = marked_df \\\n        .where(col(\"event_date\") == current_date) \\\n        .groupBy(\"event_date\", \"category_id\", \"event_type\") \\\n        .agg(count(\"*\").alias(\"event_count\"), countDistinct(\"user_id\").alias(\"distinct_customer_count\"))\n        \n    # Сохранение данных\n    aggregated_df \\\n        .repartition(\"event_date\") \\\n        .write \\\n        .partitionBy(\"event_date\") \\\n        .mode(\"append\") \\\n        .saveAsTable(\"user_id.event_types_daily\")       \n        #.mode(\"overwrite\") \\ - Предпочтительно, при корректно работающей опции spark.conf.set(\"spark.sql.sources.partitionOverwriteMode\", \"dynamic\") \n\n    print(f\"Load data for {current_date} complite\")      \n\nprint(\"Loading complite\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:14:37+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "event_date": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "event_date": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706971902163_1627152199",
+      "id": "paragraph_1706971902163_1627152199",
+      "dateCreated": "2024-02-03T17:51:42+0300",
+      "dateStarted": "2024-02-04T11:31:03+0300",
+      "dateFinished": "2024-02-04T11:31:42+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:18745"
+    },
+    {
+      "text": "%spark.pyspark\n\nspark.stop()",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:14:27+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707038059387_440706322",
+      "id": "paragraph_1707038059387_440706322",
+      "dateCreated": "2024-02-04T12:14:19+0300",
+      "status": "READY",
+      "$$hashKey": "object:18746"
+    },
+    {
+      "text": "%md\n\n#### Проверки",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T12:13:21+0300",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h4>Проверки</h4>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707035719913_1772760216",
+      "id": "paragraph_1707035719913_1772760216",
+      "dateCreated": "2024-02-04T11:35:19+0300",
+      "dateStarted": "2024-02-04T12:13:21+0300",
+      "dateFinished": "2024-02-04T12:13:21+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:18747"
+    },
+    {
+      "text": "%spark.pyspark\n\nfrom pyspark.sql.functions import col\n\nspark.sql(\"ALTER TABLE user_id.event_types_daily DROP IF EXISTS PARTITION (event_date='2019-11-29')\")\n\nevent_types_daily_df = spark.table(\"user_id.event_types_daily\")\nresult_df = event_types_daily_df.orderBy(col('event_date').desc())\n\nz.show(result_df)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-04T11:35:19+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1707035707952_887715589",
+      "id": "paragraph_1707035707952_887715589",
+      "dateCreated": "2024-02-04T11:35:07+0300",
+      "status": "READY",
+      "$$hashKey": "object:18748"
+    }
+  ],
+  "name": "homework_2",
+  "id": "2JQ56BECH",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/user_id/homework_2"
+}

@@ -1,0 +1,209 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n\n# Задание после вводной лекции\n\n## Редактировать эту тетрадку или запускать нельзя, нужно сперва скопировать её по пути /username/homework_1\n\n\n## Задание первое -- запустить спарк приложение и вывести его настройки с помощью print()\n\nПервый шаг -- запустить параграф \"Задание 1\" с интерпретером spark. При этом запустится zeppelin interpreter, который запустит Spark Application на Hadoop Yarn. Запущенное спарк приложение отобразится в списке здесь [Yarn Application List](http://ca-spark-n-01.innoca.local:8088/ui2/#/yarn-apps/apps). Пока интерпретер работает, вам доступна SparkSession в переменной spark. Из неё можно, например, получить конфигурацию спарк приложения (задание 1)\n\nЕсли нажать на странице Yarn Application List на ваш application_id, откроется его страница в Yarn. На ней нужно найти ссылку Application Master, пройти по ней в Spark UI. Это интерфейс приложения Spark, который доступен только пока приложение работает. \n\n\n## Важно! На каждую тетрадку запускается новый интерпретер. По завершении работы обязательно останавливать спарк приложение вызовом spark.stop() для освобождения ресурсов кластера\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-03T07:57:59+0300",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Задание после вводной лекции</h1>\n<h2>Редактировать эту тетрадку или запускать нельзя, нужно сперва скопировать её по пути /username/homework_1</h2>\n<h2>Задание первое &ndash; запустить спарк приложение и вывести его настройки с помощью print()</h2>\n<p>Первый шаг &ndash; запустить параграф &ldquo;Задание 1&rdquo; с интерпретером spark. При этом запустится zeppelin interpreter, который запустит Spark Application на Hadoop Yarn. Запущенное спарк приложение отобразится в списке здесь <a href=\"http://ca-spark-n-01.innoca.local:8088/ui2/#/yarn-apps/apps\">Yarn Application List</a>. Пока интерпретер работает, вам доступна SparkSession в переменной spark. Из неё можно, например, получить конфигурацию спарк приложения (задание 1)</p>\n<p>Если нажать на странице Yarn Application List на ваш application_id, откроется его страница в Yarn. На ней нужно найти ссылку Application Master, пройти по ней в Spark UI. Это интерфейс приложения Spark, который доступен только пока приложение работает.</p>\n<h2>Важно! На каждую тетрадку запускается новый интерпретер. По завершении работы обязательно останавливать спарк приложение вызовом spark.stop() для освобождения ресурсов кластера</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706606144985_1607441186",
+      "id": "paragraph_1706553686321_1659564242",
+      "dateCreated": "2024-01-30T12:15:44+0300",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:17641"
+    },
+    {
+      "title": "Задание 1: вывести через print() в читаемом виде настройки спарк приложения по маске spark.*",
+      "text": "%spark.pyspark\n\n# нужно отфильтровать конфиги по маске spark.* и распечатать с помощью print()\n# должно получиться что-то вроде такого:\n# spark.shuffle.service.enabled: False\n\nspark.conf.set(\"spark.sql.sources.partitionOverwriteMode\", \"dynamic\")\n\nlist_with_configs = spark.sparkContext.getConf().getAll()\nlist_with_configs",
+      "user": "anonymous",
+      "dateUpdated": "2024-02-03T18:21:42+0300",
+      "progress": 0,
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706606144986_688564843",
+      "id": "paragraph_1706551737957_1953115228",
+      "dateCreated": "2024-01-30T12:15:44+0300",
+      "dateStarted": "2024-02-03T18:21:42+0300",
+      "dateFinished": "2024-01-30T12:28:14+0300",
+      "status": "ABORT",
+      "$$hashKey": "object:17642"
+    },
+    {
+      "title": "Выполнить параграф по окончании работы",
+      "text": "%spark.pyspark\nspark.stop()",
+      "user": "anonymous",
+      "dateUpdated": "2024-01-30T14:28:17+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706606144986_824911010",
+      "id": "paragraph_1706551841401_1326989314",
+      "dateCreated": "2024-01-30T12:15:44+0300",
+      "dateStarted": "2024-01-30T14:28:17+0300",
+      "dateFinished": "2024-01-30T14:28:17+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:17643"
+    },
+    {
+      "text": "%spark.pyspark\n\nfor k, v in list_with_configs:\n    if k.find('spark.') == 0:\n        print(f'{k}: {v}')\n        ",
+      "user": "anonymous",
+      "dateUpdated": "2024-01-30T14:26:05+0300",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "spark.driver.host: ca-spark-d-03.innoca.local\nspark.shuffle.service.enabled: False\nspark.yarn.app.container.log.dir: /var/log/hadoop-yarn/userlogs/application_1706559751817_0001/container_e03_1706559751817_0001_01_000001\nspark.serializer: org.apache.spark.serializer.KryoSerializer\nspark.webui.yarn.useProxy: false\nspark.eventLog.dir: hdfs:///var/log/spark/apps\nspark.useHiveContext: true\nspark.yarn.archive: hdfs:///apps/spark/spark-yarn-archive.tgz\nspark.executorEnv.PYTHONPATH: /usr/lib/spark/python/lib/py4j-0.10.7-src.zip:/usr/lib/spark/python/:<CPS>{{PWD}}/pyspark.zip<CPS>{{PWD}}/py4j-0.10.7-src.zip\nspark.history.store.path: /var/log/spark/history\nspark.app.name: zeppelin\nspark.ui.filters: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter\nspark.yarn.app.id: application_1706559751817_0001\nspark.driver.extraJavaOptions: -Dfile.encoding=UTF-8 -Dlog4j.configuration=log4j_yarn_cluster.properties -Dzeppelin.log.file=/opt/zeppelin/zeppelin-0.10.1-bin-all/logs/zeppelin-interpreter-spark-2JMJW9VQA-zepp-ca-spark-zp-01.innoca.local.log\nspark.executor.id: driver\nspark.repl.class.uri: spark://ca-spark-d-03.innoca.local:46352/classes\nspark.sql.catalogImplementation: hive\nspark.driver.port: 46352\nspark.org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter.param.PROXY_URI_BASES: http://ca-spark-n-01.innoca.local:8088/proxy/application_1706559751817_0001\nspark.driver.memory: 512mb\nspark.submit.deployMode: cluster\nspark.yarn.submit.waitAppCompletion: false\nspark.eventLog.enabled: True\nspark.yarn.maxAppAttempts: 1\nspark.app.id: application_1706559751817_0001\nspark.executor.instances: 2\nspark.dynamicAllocation.cachedExecutorIdleTimeout: 600s\nspark.history.provider: org.apache.spark.deploy.history.FsHistoryProvider\nspark.org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter.param.PROXY_HOSTS: ca-spark-n-01.innoca.local\nspark.yarn.secondary.jars: spark-scala-2.11-0.10.1.jar,zeppelin-interpreter-shaded-0.10.1.jar\nspark.driver.cores: 1\nspark.dynamicAllocation.executorIdleTimeout: 120s\nspark.scheduler.mode: FAIR\nspark.repl.class.outputDir: /srv/hadoop-yarn/nm-local/usercache/user_id/appcache/application_1706559751817_0001/container_e03_1706559751817_0001_01_000001/tmp/spark4317293321479318006\nspark.history.fs.cleaner.enabled: True\nspark.yarn.dist.jars: file:///opt/zeppelin/zeppelin-0.10.1-bin-all/interpreter/spark/scala-2.11/spark-scala-2.11-0.10.1.jar,file:///opt/zeppelin/zeppelin-0.10.1-bin-all/interpreter/zeppelin-interpreter-shaded-0.10.1.jar\nspark.yarn.dist.files: file:///opt/zeppelin/zeppelin-0.10.1-bin-all/conf/log4j_yarn_cluster.properties\nspark.dynamicAllocation.enabled: False\nspark.master: yarn\nspark.ui.port: 0\nspark.executor.memory: 512mb\nspark.yarn.isPython: true\nspark.executor.cores: 1\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706606994554_327198117",
+      "id": "paragraph_1706606994554_327198117",
+      "dateCreated": "2024-01-30T12:29:54+0300",
+      "dateStarted": "2024-01-30T14:26:05+0300",
+      "dateFinished": "2024-01-30T14:26:06+0300",
+      "status": "FINISHED",
+      "$$hashKey": "object:17644"
+    },
+    {
+      "text": "%spark.pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-01-30T12:36:14+0300",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1706607374577_915007579",
+      "id": "paragraph_1706607374577_915007579",
+      "dateCreated": "2024-01-30T12:36:14+0300",
+      "status": "READY",
+      "$$hashKey": "object:17645"
+    }
+  ],
+  "name": "homework_1",
+  "id": "2JMJW9VQA",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/user_id/homework_1"
+}
